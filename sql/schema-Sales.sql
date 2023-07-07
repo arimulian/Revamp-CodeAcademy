@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS sales.special_offter
     spof_end_date timestamp without time zone,
     spof_min_qty integer,
     spof_max_qty integer,
+    spof_modified_date timestamp without time zone DEFAULT now(),
     spof_cate_id integer,
     CONSTRAINT pk_special_ofter_id PRIMARY KEY (spof_id),
     CONSTRAINT special_offter_spof_cate_id_fkey FOREIGN KEY (spof_cate_id)
@@ -40,7 +41,7 @@ CREATE TABLE IF NOT EXISTS sales.special_offter_programs
         REFERENCES sales.special_offter (spof_id)
 )
 
-ALTER TABLE sales.special_offter SET CONSTRAINT fk_special_offter_program FOREIGN KEY (soco_prog_entity_id) REFERENCES curicullum.program_entity(prog_entity_id)
+ALTER TABLE sales.special_offter ADD CONSTRAINT fk_special_offter_program FOREIGN KEY (soco_prog_entity_id) REFERENCES curicullum.program_entity(prog_entity_id)
 
 --
 --create table Cart_Items 
@@ -57,8 +58,8 @@ CREATE TABLE IF NOT EXISTS sales.cart_items
     CONSTRAINT cart_items_pkey PRIMARY KEY (cait_id)
 )
 
-ALTER TABLE sales.cart_items SET CONSTRAINT fk_cait_prog_entity_id FOREIGN KEY (cait_prog_entity_id) REFERENCES curicullum.program_entity(prog_entity_id)
-ALTER TABLE sales.cart_items SET CONSTRAINT fk_cait_user_entity_id FOREIGN KEY (cait_user_entity_id) REFERENCES users.users(user_entity_id)
+ALTER TABLE sales.cart_items ADD CONSTRAINT fk_cait_prog_entity_id FOREIGN KEY (cait_prog_entity_id) REFERENCES curicullum.program_entity(prog_entity_id)
+ALTER TABLE sales.cart_items ADD CONSTRAINT fk_cait_user_entity_id FOREIGN KEY (cait_user_entity_id) REFERENCES users.users(user_entity_id)
 
 --
 --create table Sales_order_Header
@@ -84,8 +85,8 @@ CREATE TABLE IF NOT EXISTS sales.sales_order_header
     CONSTRAINT sales_order_header_sohe_order_number_key UNIQUE (sohe_order_number)
     CONSTRAINT sales_order_header_sohe_license_code_key UNIQUE (sohe_license_code),
 )
-ALTER TABLE sales.sales_order_header SET CONSTRAINT fk_sohe_user_entity_id FOREIGN KEY(sohe_user_entity_id) REFERENCES users.users(user_entity_id)
-ALTER TABLE sales.sales_order_header SET CONSTRAINT fk_sohe_status FOREIGN KEY(sohe_status)REFERENCES master.status(status)
+ALTER TABLE sales.sales_order_header ADD CONSTRAINT fk_sohe_user_entity_id FOREIGN KEY(sohe_user_entity_id) REFERENCES users.users(user_entity_id)
+ALTER TABLE sales.sales_order_header ADD CONSTRAINT fk_sohe_status FOREIGN KEY(sohe_status)REFERENCES master.status(status)
 
 --
 -- create table Sales_Order_Detail
@@ -105,4 +106,4 @@ CREATE TABLE IF NOT EXISTS sales.sales_order_detail
     CONSTRAINT sales_order_detail_sode_sohe_id_fk FOREIGN KEY (sode_sohe_id)
         REFERENCES sales.sales_order_header (sohe_id)
 )
-ALTER TABLE sales.sales_order_detail SET CONSTRAINT fk_sode_prog_entity_id FOREIGN KEY(sode_prog_entity_id) REFERENCES curicullum.program_entity(prog_entity_id)
+ALTER TABLE sales.sales_order_detail ADD CONSTRAINT fk_sode_prog_entity_id FOREIGN KEY(sode_prog_entity_id) REFERENCES curicullum.program_entity(prog_entity_id)
